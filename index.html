@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ukay Ukay Release Countdown</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&display=swap">
+<style>
+:root{--bg:#1c1519;--ink:#fff4f7;--muted:#c9a9b5;--pink:#ff8fb1;--tag:#fff4f7;--tagink:#2a1a21;--line:#3a2a32;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fff0f4;--ink:#2a1a21;--muted:#7a5663;--pink:#e0386f;--tag:#2a1a21;--tagink:#fff4f7;--line:#f1c9d6}}
+:root[data-theme="light"]{--bg:#fff0f4;--ink:#2a1a21;--muted:#7a5663;--pink:#e0386f;--tag:#2a1a21;--tagink:#fff4f7;--line:#f1c9d6}
+:root[data-theme="dark"]{--bg:#1c1519;--ink:#fff4f7;--muted:#c9a9b5;--pink:#ff8fb1;--tag:#fff4f7;--tagink:#2a1a21;--line:#3a2a32}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px}
+main{width:100%;max-width:720px;text-align:center}
+h1{font-weight:800;font-size:clamp(2rem,7vw,3.4rem);line-height:1.05;margin:0 0 8px;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0 0 28px;font-size:1.05rem}
+.tag{position:relative;background:var(--tag);color:var(--tagink);border-radius:18px;padding:44px 16px 24px;margin:0 auto 24px;max-width:640px;box-shadow:0 0 0 2px var(--pink)}
+.tag::before{content:"";position:absolute;top:14px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px var(--pink)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.n{font-weight:800;font-size:clamp(2.2rem,10vw,4.6rem);line-height:1;font-variant-numeric:tabular-nums}
+.l{font-size:.9rem;opacity:.7;margin-top:6px}
+.when{font-size:1.1rem;margin:0 0 4px}
+.local{color:var(--muted);margin:0 0 24px}
+a.btn{display:inline-block;background:var(--pink);color:#2a1a21;font-weight:800;text-decoration:none;padding:14px 26px;border-radius:999px}
+a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.live .n{color:var(--pink)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Ukay Ukay is dropping</h1>
+  <p class="sub">Adventure Studio family, be online on time.</p>
+  <section class="tag" id="tag" aria-live="off">
+    <div class="grid" id="grid">
+      <div><div class="n" id="d">00</div><div class="l">days</div></div>
+      <div><div class="n" id="h">00</div><div class="l">hours</div></div>
+      <div><div class="n" id="m">00</div><div class="l">minutes</div></div>
+      <div><div class="n" id="s">00</div><div class="l">seconds</div></div>
+    </div>
+  </section>
+  <p class="when">October 5, 2026 at 11:00 PM (Philippine time)</p>
+  <p class="local" id="local"></p>
+  <a class="btn" href="https://www.roblox.com/communities/32849572/Adventure-Studio#!/about">Join Adventure Studio</a>
+</main>
+<script>
+(function(){
+  var target=new Date("2026-10-05T23:00:00+08:00").getTime();
+  var $=function(id){return document.getElementById(id)};
+  var pad=function(n){return String(n).padStart(2,"0")};
+  try{
+    $("local").textContent="Your local time: "+new Date(target).toLocaleString([], {dateStyle:"full",timeStyle:"short"});
+  }catch(e){}
+  function tick(){
+    var diff=target-Date.now();
+    if(diff<=0){
+      $("grid").innerHTML='<div style="grid-column:1/-1"><div class="n">It\'s live!</div><div class="l">Ukay Ukay has been released</div></div>';
+      $("tag").classList.add("live");
+      return;
+    }
+    var s=Math.floor(diff/1000);
+    $("d").textContent=pad(Math.floor(s/86400));
+    $("h").textContent=pad(Math.floor(s%86400/3600));
+    $("m").textContent=pad(Math.floor(s%3600/60));
+    $("s").textContent=pad(s%60);
+    setTimeout(tick,250);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
